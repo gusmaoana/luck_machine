@@ -750,10 +750,29 @@ body {
   z-index: 200;
 }
 
-/* Responsive */
-@media (max-width: 520px) {
+/* Responsive — portrait / narrow: stack lever below machine */
+@media (max-width: 540px), (orientation: portrait) and (max-width: 640px) {
+  .machine-wrapper {
+    padding: 1rem 0.75rem;
+    overflow: visible;
+  }
+
+  .slot-machine {
+    width: min(360px, 94vw);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   .lever-container {
-    right: -35px;
+    position: static;
+    right: auto;
+    top: auto;
+    transform: none;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .lever-arm {
