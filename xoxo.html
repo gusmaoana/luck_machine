@@ -788,7 +788,7 @@ body {
   <section id="setup-screen" class="screen active">
     <div class="setup-card">
       <h1 class="setup-title">🎰 LuckMachine</h1>
-      <p class="setup-subtitle">Configure os participantes e inicie a máquina da sorte</p>
+      <p class="setup-subtitle">Configure os participantes e acione a máquina da sorte</p>
 
       <div class="setup-section">
         <label for="names-input">Lista de nomes</label>
@@ -1178,8 +1178,20 @@ body {
 
   // ===== Utilitários =====
   function secureRandomInt(max) {
+    // Rejection sampling evita o viés do operador %, preservando a
+    // distribuição uniforme fornecida por crypto.getRandomValues().
+    if (!Number.isInteger(max) || max < 1) {
+      throw new RangeError('O limite do sorteio deve ser um inteiro positivo.');
+    }
+
+    const upperBound = 0x100000000;
+    const limit = upperBound - (upperBound % max);
     const array = new Uint32Array(1);
-    crypto.getRandomValues(array);
+
+    do {
+      crypto.getRandomValues(array);
+    } while (array[0] >= limit);
+
     return array[0] % max;
   }
 
